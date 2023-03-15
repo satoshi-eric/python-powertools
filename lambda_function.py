@@ -12,6 +12,8 @@ from aws_lambda_powertools.utilities.streaming.transformations import (CsvTransf
 def lambda_handler(event: Dict[str, str], context: LambdaContext):
     s3_event = S3Event(event)
     s3_object = S3Object(bucket=s3_event.bucket_name, key=s3_event.object_key)
+    raw_data = s3_object.read()
+    print(raw_data.decode("utf-8"))
     data = s3_object.transform([CsvTransform()])
     for line in data:
         print(line)
